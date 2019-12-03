@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css"
+        integrity="sha384-SI27wrMjH3ZZ89r4o+fGIJtnzkAnFs3E4qz9DIYioCQ5l9Rd/7UAa8DHcaL8jkWt" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Courgette&display=swap" rel="stylesheet">
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/ec7aee1831.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/index.css">
+    <title>GrillSpot</title>
+</head>
+
+<body style="background: rgb(230, 228, 228);">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-success">
+        <a class="navbar-brand" href="../index.html"><img
+                src="https://res.cloudinary.com/gboyega/image/upload/v1574848771/grillspot/LogoMakr_7e9Jxn_a6oa1d.png"
+                height="30" alt="logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+
+            <form class="navbar-nav ml-auto mr-auto mt-2 mt-lg-0">
+                <!-- <div class="form-row">
+
+                    <div class="col">
+                        <select class="custom-select form-control" id="grubSelect" data-toggle="tooltip"
+                            title="Select food">
+                            <option selected>Looking for</option>
+                            <option value="Suya">Suya</option>
+                            <option value="Asun">Asun</option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <select class="custom-select form-control" id="locationSelect" data-toggle="tooltip"
+                            title="Choose Location">
+                            <option selected>Location</option>
+                            <option value="Lekki">Lekki</option>
+                            <option value="Ikoyi">Ikoyi</option>
+                            <option value="Ikeja">Ikeja</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-dark from-control" id="Search">Search</button>
+                </div> -->
+            </form>
+
+            <div class="form-inline my-2 my-lg-0">
+
+                <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Log In</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="sep"></div>
+    <div class="container" style="min-height:80vh;">
+        <div class="container" style="width: 70%;">
+            <div class="card text-center">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs nav-justified">
+                        <li class="nav-item">
+                            <a class="nav-link text-success active" href="#profile" data-toggle="tab">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="#menu" data-toggle="tab">Menu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="#review" data-toggle="tab">Review</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="#newReview" data-toggle="tab">Write Review</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content mb-2" id="myTabContent" style="background: white; min-height: 75vh;">
+                        <div class="tab-pane fade show active" id="profile" role="tabpanel"
+                            aria-labelledby="profile-tab">
+                            <h5 class="card-title">Asun-spot</h5>
+                            <p class="card-text"><span class=" text-success text-start">Address:</span> <span
+                                    class="text-end">15 Caulcrick drive, Lekki phase 1, Lagos.</span> </p>
+                            <p class="card-text"><span class=" text-success text-start">Owner/Operator:</span> <span
+                                    class="text-end">Adamu Danladi</span> </p>
+                            <p class="card-text"><span class=" text-success text-start">Phone:</span> <span
+                                    class="text-end">070345485</span> </p>
+                            <p class="card-text"><span class=" text-success text-start">Address:</span> <span
+                                    class="text-end">15 Caulcrick drive,
+                                    Lekki phase 1, Lagos.</span> </p>
+
+                        </div>
+                        <div class="tab-pane fade" id="menu" role="tabpanel" aria-labelledby="menu-tab">...</div>
+                        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="review-tab">...</div>
+                        <div class="tab-pane fade" id="newReview" role="tabpanel" aria-labelledby="write-review-tab">
+                            1111</div>
+                    </div>
+                    <!-- <h5 class="card-title">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="sep"></div>
+
+    <div class="container-fluid footer" style="background: black;">
+        <div class="row m-0">
+
+            <div class='col-sm-10 text-start'>
+                <a href="../index.html" class='text-success'>GrillSpot</a>
+                <span class='text-dark small'>&copy;2019</span>
+            </div>
+            <div class="col-sm-2 justify-content-end">
+                <i class="fab fa-facebook mr-2" style="font-size:25px;color:white;"><a href="#" target="blank"></a></i>
+                <i class="fab fa-instagram mr-2" style="font-size:25px;color:white;"><a href="#" target="blank"></a></i>
+                <i class="fab fa-twitter mr-2" style="font-size:25px;color:white;"><a href="#" target="blank"></a></i>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- bootstrap Js and popper -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js"
+        integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P"
+        crossorigin="anonymous"></script>
+    <!-- local script -->
+    <script src="../js/Spotdb.js"></script>
+    <script src="../js/index.js"></script>
+</body>
+
+</html>
