@@ -1,0 +1,9 @@
+body{
+    font-family: 'Courgette', cursive;
+}
+
+.mast{
+    background-image:linear-gradient(rgba(14, 13, 13, 0.5), rgba(14, 13, 13, 0.3)), url('http://sisijemimah.com/wp-content/uploads/2016/12/asun-8.jpg');
+    background-repeat:no-repeat;
+    background-size:cover;
+}

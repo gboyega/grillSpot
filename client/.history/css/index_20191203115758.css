@@ -1,0 +1,18 @@
+body {
+  font-family: "Courgette", cursive;
+}
+
+.mast {
+  background-image: linear-gradient(
+      rgba(14, 13, 13, 0.4),
+      rgba(14, 13, 13, 0.4)
+    ),
+    url("https://res.cloudinary.com/gboyega/image/upload/v1575370660/grillspot/asun-8_lk8g1y.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.sep {
+  height: 48px;
+  width: 100%;
+}
