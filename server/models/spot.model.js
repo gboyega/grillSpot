@@ -6,13 +6,13 @@ const spotSchema = new Schema({
   name: {
     type: String,
     trim: true,
-    required
+    required:true
   },
 
   location: {
     type: String,
     trim: true,
-    required
+    required:true
   },
 
   operator: {
@@ -23,13 +23,13 @@ const spotSchema = new Schema({
   address: {
     type: String,
     trim: true,
-    required
+    required:true
   },
 
   phone: {
     type: String,
     trim: true,
-    required
+    required:true
   },
 
   mail: {
@@ -45,20 +45,21 @@ const spotSchema = new Schema({
   image: {
     type: String,
     trim: true,
-    required
+    required:true
   },
 
   category: {
     type: String,
     trim: true,
-    required
+    required:true
   },
 
   ownerId: {
     type: String,
     trim: true,
-    required
-  }
+    required:true
+  },
+  
 });
 
 const Spot = mongoose.model("Spot", spotSchema);

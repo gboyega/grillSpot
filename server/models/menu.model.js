@@ -5,25 +5,25 @@ const Schema = mongoose.Schema;
 const menuSchema = new Schema ({
    spotId: {
        type: String,
-       trim,
-       required
+       trim:true,
+       required:true
    }, 
 
    menu: {
        name: {
            type: String,
-           trim,
-           required
+           trim:true,
+           required:true
        },
 
        price: {
            type: String,
-           trim,
-           required
+           trim:true,
+           required:true
        }
    }
 });
 
 const Menu = mongoose.model('Menu', menuSchema);
 
-module.exports = Spot
+module.exports = Menu;

@@ -36,8 +36,7 @@ reviewForm.addEventListener("submit", event => {
     var newReview = {
       name: newName,
       Title: newTitle,
-      review: newReview,
-      img: "https://res.cloudinary.com/gboyega/image/upload/v1575387409/grillspot/profile-placeholder_kqu2no.png"
+      review: newReview
     };
     selectedSpot.review.push(newReview);
     reviewSlot.innerHTML = "";
@@ -103,9 +102,6 @@ var reviewsDisplay = (selectedSpot, i) => {
   review = ` <div class="sep"></div>
                                 <div class="card mb-3" style="max-width: 90%;">
                                     <div class="row no-gutters">
-                                        <div class="col-md-4">
-                                            <img src="${selectedSpot.review[i].img}" alt="${selectedSpot.review[i].name}" class="img-thumbnail">
-                                        </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <h5 class="card-title">${selectedSpot.review[i].Title}</h5>

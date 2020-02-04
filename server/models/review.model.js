@@ -6,26 +6,26 @@ const reviewSchema = new Schema({
   spotId: {
     type: String,
     trim: true,
-    required
+    required:true
   },
 
   review: {
     name: {
       type: String,
       trim: true,
-      required
+      required:true
     },
 
     title: {
       type: String,
       trim: true,
-      required
+      required:true
     },
 
     review: {
       type: String,
       trim: true,
-      required
+      required:true
     }
   }
 });

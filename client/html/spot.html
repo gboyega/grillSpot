@@ -76,10 +76,7 @@
                             <a class="nav-link text-success" href="#menu" data-toggle="tab">Menu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-success" href="#review" data-toggle="tab">Review</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-success" href="#newReview" data-toggle="tab">Write Review</a>
+                            <a class="nav-link text-success" href="#review" data-toggle="tab">Review/s</a>
                         </li>
                     </ul>
                 </div>
@@ -98,43 +95,49 @@
                         </div>
                         <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                             <div class="row row-cols-1 row-cols-md-1 justify-content-center" id="reviewCards"></div>
-                        </div>
-                        <div class="tab-pane fade" id="newReview" role="tabpanel" aria-labelledby="write-review-tab">
-                            <form>
-                                <div class="form-group">
-                                    <label for="Name">Name</label>
-                                    <input type="text" class="form-control" id="name" aria-describedby="name"
-                                        placeholder="Your First and Last name" required>
-                                </div>
-                        
-                                <!-- <div class="form-group">
-                                    <label for="Email">Email address</label>
-                                    <input type="email" class="form-control" id="Email" aria-describedby="email"
-                                        placeholder="Enter your email address">
-                                    <small id="email" class="form-text text-muted">We'll never share your email with
-                                        anyone else.</small>
-                                </div> -->
-                        
-                                <div class="form-group">
-                                    <label for="reviewTitle">Review Title</label>
-                                    <textarea class="form-control" id="reviewTitle" rows="1"
-                                        placeholder="A short title for your review" required></textarea>
-                                </div>
-                        
-                                <div class="form-group">
-                                    <label for="extendedReview">Review</label>
-                                    <textarea class="form-control" id="extendedReview" rows="3" placeholder="Your full review" required></textarea>
-                                </div>
-                        
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="t&cCheck" required>
-                                    <label class="form-check-label" for="t&cCheck">I agree to all Terms and
-                                        privacy
-                                        policy</label>
-                                </div>
-                        
-                                <button type="submit" class="btn btn-success text-dark">Submit</button>
-                            </form>
+
+                            <div class="sep"></div>
+
+                            <div class="row row-cols-1 row-cols-md-1 justify-content-center">
+
+                                <form class='col-md-11 rounded border border-muted p-2'>
+                                    <div class="form-group">
+                                        <label for="Name">Name</label>
+                                        <input type="text" class="form-control" id="name" aria-describedby="name"
+                                            placeholder="Your First and Last name" required>
+                                    </div>
+
+                                    <!-- <div class="form-group">
+                                                                <label for="Email">Email address</label>
+                                                                <input type="email" class="form-control" id="Email" aria-describedby="email"
+                                                                    placeholder="Enter your email address">
+                                                                <small id="email" class="form-text text-muted">We'll never share your email with
+                                                                    anyone else.</small>
+                                                            </div> -->
+
+                                    <div class="form-group">
+                                        <label for="reviewTitle">Review Title</label>
+                                        <textarea class="form-control" id="reviewTitle" rows="1"
+                                            placeholder="A short title for your review" required></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="extendedReview">Review</label>
+                                        <textarea class="form-control" id="extendedReview" rows="3"
+                                            placeholder="Your full review" required></textarea>
+                                    </div>
+
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" id="t&cCheck" required>
+                                        <label class="form-check-label" for="t&cCheck">I agree to all Terms and
+                                            privacy
+                                            policy</label>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success text-dark">Submit</button>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
