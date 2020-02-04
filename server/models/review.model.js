@@ -26,6 +26,11 @@ const reviewSchema = new Schema({
       type: String,
       trim: true,
       required:true
+    },
+
+    date: {
+      type:Date,
+      required: true
     }
   }
 });
