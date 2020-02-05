@@ -1,11 +1,46 @@
+require("dotenv").config();
+const fs = require("fs");
+var cloudinary = require("cloudinary").v2;
 let Spot = require('../models/spot.model');
+var spotImg;
 
-const imageUpload = (img) => {
-    
-}
+cloudinary.config({
+  cloud_name: process.env.cloudinary_cloud_name,
+  api_key: process.env.cloudinary_api_key,
+  api_secret: process.env.cloudinary_api_secret
+}); 
+
+module.exports.upload =  (req, res) => {
+     if (!req.file) {
+       res.status(415).json({ message: "invalid upload request" });
+     }
+     cloudinary.uploader.upload(req.file.path, { tags: "grill_spot" }, (
+      err,
+      image
+    )  => {
+      console.log();
+      console.log("** File Upload");
+      if (err) {
+        console.warn(err);
+      }
+      spotImg = image.url;
+      res.send(spotImg);
+    });
+};
 
 module.exports.create = ( req, res ) => {
-    const spot = req.body;
+    const spot = {
+        name: req.body.name,
+        location: req.body.location,
+        operator: req.body.operator,
+        address: req.body.address,
+        phone: req.body.phone,
+        mail: req.body.mail,
+        website: req.body.website,
+        image: spotImg || spotPlaceHolder,
+        category: req.body.category,
+        ownerId: req.body.ownerId
+    };
 
     const newSpot = new Spot(spot);
 
@@ -14,10 +49,38 @@ module.exports.create = ( req, res ) => {
     .catch(err => res.status(400).json({error: err, Message: 'Spot Not created'}));
 };
 
-module.exports.update = () => {};
-
 module.exports.getAll = (req, res) => {
-
+  Spot.find()
+    .then(spots => res.json({ body: spots }))
+    .catch(err =>
+      res.status(400).json({ error: err, message: "Spots cannot be fetched." })
+    );
 };
 
-module.exports.getOne = () => {};
+module.exports.getOne = (req, res) => {
+  Spot.findById(req.params.spotId)
+    .then(spot => res.json({ body: spot }))
+    .catch(err =>
+      res.status(400).json({ error: err, message: "Cannot fetch Spot " })
+    );
+};
+
+module.exports.update = (req, res) => {
+  const spot = req.body;
+
+  Todo.findByIdAndUpdate({ _id: req.params.spotId }, spot, { new: true })
+    .then(spot =>
+      res.json({ body: spot, message: "Todo updated successfully" })
+    )
+    .catch(err =>
+      res.status(400).json({ error: err, message: "cannot update Spot" })
+    );
+};
+
+module.exports.delete = (req, res) => {
+  Todo.findOneAndDelete({ _id: req.params.todoId })
+    .then(todos => res.json({ body: spot, message: "todo has been deleted" }))
+    .catch(err =>
+      res.status(400).json({ error: err, message: "cannot delete spot" })
+    );
+};
