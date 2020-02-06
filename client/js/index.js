@@ -1,4 +1,3 @@
-var sortedSpot = spots.sort(() => { return (Math.random() - Math.random()) }).slice(0,3)
 var loc;
 var grub;
 var howTo = document.getElementById("findGrubs");
@@ -6,13 +5,11 @@ var title = document.getElementById("searchTitle");
 var spotCard = document.getElementById("spotCards");
 const form = document.querySelector("form");
 var id;
+//
 
 window.onload = () => {
- for (i = 0; i < sortedSpot.length; i++) {
-   displaySearchResults(sortedSpot, i);
- }
+ loadPage();
 };
-
 
 form.addEventListener("submit", event => {
   loc = document.getElementById("locationSelect").value;
@@ -27,9 +24,9 @@ form.addEventListener("submit", event => {
     }
     sortedSpot = [];
     sortedSpot = sort(loc, grub);
-    howTo.innerHTML='';
-    spotCard.innerHTML='';
-    for (i=0; i<sortedSpot.length; i++){
+    howTo.innerHTML = "";
+    spotCard.innerHTML = "";
+    for (i = 0; i < sortedSpot.length; i++) {
       displaySearchResults(sortedSpot, i);
     }
   } else {
@@ -41,24 +38,39 @@ form.addEventListener("submit", event => {
 });
 
 function reply_click() {
-  id = (event.target.id);
+  id = event.target.id;
   var w = window.open("./html/spot.html");
   w.id = id;
 }
+
+const loadPage = () => {
+   getSpots();
+   console.log(spots);
+   var sortedSpot = spots
+     .sort(() => {
+       return Math.random() - Math.random();
+     })
+     .slice(0, 3);
+     loadNav();
+   sortedSpot.map(spot => displaySearchResults(spot));
+};
 
 const sort = (loc, grub) => {
   let results = [];
   for (i = 0; i < spots.length; i++) {
     if (loc === "Location") {
-      if (spots[i].category === grub) {
+      if (spots[i].category.toUpperCase() === grub.toUpperCase()) {
         results.push(spots[i]);
       }
     } else if (grub === "Looking for") {
-      if (spots[i].location === loc) {
+      if (spots[i].location.toUpperCase() === loc.toUpperCase()) {
         results.push(spots[i]);
       }
     } else {
-      if (spots[i].location === loc && spots[i].category === grub) {
+      if (
+        spots[i].location.toUpperCase() === loc.toUpperCase() &&
+        spots[i].category.toUpperCase() === grub.toUpperCase()
+      ) {
         results.push(spots[i]);
       }
     }
@@ -67,23 +79,19 @@ const sort = (loc, grub) => {
   return results;
 };
 
-const displaySearchResults = (sortedSpot, i) => {
-  let spot = sortedSpot[i];
+const displaySearchResults = spot => {
   card = ` <div class ="col-sm-4 mb-5" >
             <div class="card h-100" >
-                    <img src="${spot.img}"
+                    <img src="${spot.image}"
                         class="card-img-top" alt="${spot.category}">
                     <div class="card-body">
-                        <h5 class='text-center'><a class="card-title text-success" id="${spot.uId}" onClick="reply_click()">${spot.name}</a></h5>
+                        <h5 class='text-center'><a class="card-title text-success" id="${spot._id}" onClick="reply_click()">${spot.name}</a></h5>
                         <p class="card-text text-muted">${spot.address}</p>
                         <p class="card-text">${spot.location}</p>
-                        <p class="card-text">
-                            <span class="badge badge-success text-dark">${spot.location}</span>
-                            <span class="badge badge-dark text-success">${spot.category}</span>
-                        </p>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">${spot.review.length} reviews</small>
+                          <span class="badge badge-success text-dark">${spot.location}</span>
+                          <span class="badge badge-dark text-success">${spot.category}</span>
                     </div>
                 </div>
                 </div>`;

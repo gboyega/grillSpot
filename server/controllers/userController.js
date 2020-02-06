@@ -40,7 +40,7 @@ module.exports.login = async (req, res) => {
       const check = await bcrypt.compare(req.body.password, user.password);
       console.log(check);
       if (check) {
-        res.status(200).send({ name: user.name, email: user.email });
+        res.status(200).send({ body:{name: user.name, id: user._id} });
       } else {
         res.status(401).send({message:"incorrect password"});
       }

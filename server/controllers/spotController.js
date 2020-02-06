@@ -3,6 +3,7 @@ const fs = require("fs");
 var cloudinary = require("cloudinary").v2;
 let Spot = require('../models/spot.model');
 var spotImg;
+var spotPlaceHolder = "https://res.cloudinary.com/gboyega/image/upload/v1574848771/grillspot/LogoMakr_7e9Jxn_a6oa1d.png";
 
 cloudinary.config({
   cloud_name: process.env.cloudinary_cloud_name,
@@ -51,7 +52,7 @@ module.exports.create = ( req, res ) => {
 
 module.exports.getAll = (req, res) => {
   Spot.find()
-    .then(spots => res.json({ body: spots }))
+    .then(spots => res.status(200).json({body:spots}))
     .catch(err =>
       res.status(400).json({ error: err, message: "Spots cannot be fetched." })
     );
