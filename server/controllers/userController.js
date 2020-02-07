@@ -19,9 +19,16 @@ module.exports.create = async (req, res) => {
 
       newUser
         .save()
-        .then(() => res.status(201).json({ message: "User created." }))
+        .then(() =>
+          res
+            .status(201)
+            .json({
+              message: "User created.",
+              body: { name: user.name, id: user._id }
+            })
+        )
         .catch(err =>
-          res.status(400).send({ error: err, Message: "User Not created" })
+          res.status(400).json({ error: err, Message: "User Not created" })
         );
     } catch (err) {
       console.log(err);
@@ -32,17 +39,16 @@ module.exports.create = async (req, res) => {
 
 module.exports.login = async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
-  await console.log(user, req.body.password);
   if (user == null || undefined) {
-    return res.status(404).send({message:"user not found"});
+    return res.status(401).json({message:"user not found"});
   } else {
     try {
       const check = await bcrypt.compare(req.body.password, user.password);
       console.log(check);
       if (check) {
-        res.status(200).send({ body:{name: user.name, id: user._id} });
+        res.status(200).json({ body:{name: user.name, id: user._id} });
       } else {
-        res.status(401).send({message:"incorrect password"});
+        res.status(401).json({message:"incorrect password"});
       }
     } catch (err) {
       console.log(err);

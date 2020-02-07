@@ -5,6 +5,7 @@ var reviewSlot = document.getElementById("reviewCards")
 
 
 window.onload = () => {
+  loadNav();
   selectedSpot = sift(id);
   profileDisplay(selectedSpot);
   for (o = 0; o < selectedSpot.menu.length; o++) {
@@ -19,7 +20,7 @@ window.onload = () => {
 const sift = id => {
   let spot = [];
   for (x = 0; x < spots.length; x++) {
-    if (id == spots[x].uId) {
+    if (id == spots[x]._id) {
       spot.push(spots[x]);
     }
   }

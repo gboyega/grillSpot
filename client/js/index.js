@@ -8,7 +8,7 @@ var id;
 //
 
 window.onload = () => {
- loadPage();
+  loadPage();
 };
 
 form.addEventListener("submit", event => {
@@ -44,15 +44,14 @@ function reply_click() {
 }
 
 const loadPage = () => {
-   getSpots();
-   console.log(spots);
-   var sortedSpot = spots
-     .sort(() => {
-       return Math.random() - Math.random();
-     })
-     .slice(0, 3);
-     loadNav();
-   sortedSpot.map(spot => displaySearchResults(spot));
+  getSpots();
+  var sortedSpot = spots
+    .sort(() => {
+      return Math.random() - Math.random();
+    })
+    .slice(0, 3);
+  loadNav();
+  sortedSpot.map(spot => displaySearchResults(spot));
 };
 
 const sort = (loc, grub) => {

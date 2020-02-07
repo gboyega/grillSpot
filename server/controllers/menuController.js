@@ -19,7 +19,7 @@ module.exports.getMany = async (req, res) => {
           .status(204)
           .json({ message: "No menu available for this spot" });
     } else {
-      () => res.status(200).send(menu);
+      () => res.status(200).json({body:menu});
     }
   } catch (err) {
     console.log(err);
@@ -33,7 +33,7 @@ module.exports.update = (req, res) => {
 
   Todo.findByIdAndUpdate({ _id: req.params.menuId }, menu, { new: true })
     .then(menu =>
-      res.json({ body: menu, message: "Todo updated successfully" })
+      res.json({ body: menu, message: "menu updated successfully" })
     )
     .catch(err =>
       res.status(400).json({ error: err, message: "cannot update Menu" })
