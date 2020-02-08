@@ -6,6 +6,9 @@ var reviewSlot = document.getElementById("reviewCards")
 
 window.onload = () => {
   loadNav();
+  attachModals();
+  getSpots();
+  console.log(id,spots);
   selectedSpot = sift(id);
   profileDisplay(selectedSpot);
   for (o = 0; o < selectedSpot.menu.length; o++) {
@@ -61,25 +64,32 @@ reviewForm.addEventListener("submit", event => {
 
 
 var profileDisplay = selectedSpot => {
-  profile = ` <p><img src="${selectedSpot.img}"
-                                    alt="${selectedSpot.category}" style="max-height: 40vh; max-width: 100%;"></p>
+  profile = ` <p><img src="${selectedSpot.image}"
+                                    alt="${
+                                      selectedSpot.name
+                                    }" style="max-height: 40vh; max-width: 100%;"></p>
                             <div class="sep"></div>
                             <h4 class="card-title">${selectedSpot.name}</h5>
                                 <div class="sep"></div>
-                                <p class="card-text"><span class="text-success text-start">Address</span>:<span
-                                        class="text-end">${selectedSpot.address}</span> </p>
+                                <p class="card-text"><span class="text-success text-start">Address</span>: <span
+                                        class="text-end">${selectedSpot.address ||
+                                          "N/A"}</span> </p>
                                 <div class="sep"></div>
-                                <p class="card-text"><span class=" text-success text-start">Owner/Operator</span>:<span
-                                        class="text-end">${selectedSpot.Operator}</span> </p>
+                                <p class="card-text"><span class=" text-success text-start">Owner/Operator</span>: <span
+                                        class="text-end">${selectedSpot.operator ||
+                                          "N/A"}</span> </p>
                                 <div class="sep"></div>
-                                <p class="card-text"><span class=" text-success text-start">Phone</span>:<span
-                                        class="text-end">${selectedSpot.phone}</span> </p>
+                                <p class="card-text"><span class=" text-success text-start">Phone</span>: <span
+                                        class="text-end">${selectedSpot.phone ||
+                                          "N/A"}</span> </p>
                                 <div class="sep"></div>
-                                <p class="card-text"><span class=" text-success text-start">E-mail</span>:<span
-                                        class="text-end">${selectedSpot.mail}</span></p>
+                                <p class="card-text"><span class=" text-success text-start">E-mail</span>: <span
+                                        class="text-end">${selectedSpot.mail ||
+                                          "N/A"}</span></p>
                                 <div class="sep"></div>
-                                <p class="card-text"><span class=" text-success text-start">Website</span>:<span
-                                        class="text-end">${selectedSpot.web}</span></p>
+                                <p class="card-text"><span class=" text-success text-start">Website</span>: <span
+                                        class="text-end">${selectedSpot.web ||
+                                          "N/A"}</span></p>
                                 <div class="sep"></div>`;
   document.getElementById("profile").insertAdjacentHTML("beforeend", profile);
 };

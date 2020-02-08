@@ -9,6 +9,7 @@ var id;
 
 window.onload = () => {
   loadPage();
+  attachModals();
 };
 
 form.addEventListener("submit", event => {
