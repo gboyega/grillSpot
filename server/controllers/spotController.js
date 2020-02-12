@@ -15,18 +15,23 @@ module.exports.upload =  (req, res) => {
      if (!req.file) {
        res.status(415).json({ message: "invalid upload request" });
      }
-     cloudinary.uploader.upload(req.file.path, { tags: "grill_spot" }, (
-      err,
-      image
-    )  => {
-      console.log();
-      console.log("** File Upload");
-      if (err) {
-        console.warn(err);
-      }
-      spotImg = image.url;
-      res.send(spotImg);
-    });
+     cloudinary.uploader.upload(
+       req.file.path,
+       {
+         folder: "grill_spot/spots",
+         use_filename: true,
+         unique_filename: true,
+         overwrite: false,
+         tags: "grill_spot"
+       },
+       (err, image) => {
+         if (err) {
+           console.warn(err);
+         }
+         spotImg = image.url;
+         res.status(200).json({body:spotImg});
+       }
+     );
 };
 
 module.exports.create = ( req, res ) => {
@@ -42,12 +47,15 @@ module.exports.create = ( req, res ) => {
         category: req.body.category,
         ownerId: req.body.ownerId
     };
-
-    const newSpot = new Spot(spot);
+    
+   const newSpot = new Spot(spot);
 
     newSpot.save()
-    .then(() => res.status(201).json({message: 'Spot created successfully!'}))
-    .catch(err => res.status(400).json({error: err, Message: 'Spot Not created'}));
+    .then(() => res.status(201).json({message: 'Spot created successfully!', body: spot }))
+    .catch(err => {
+      res.status(400).json({error: err, message: 'Spot Not created'});
+      console.log(err);
+    });
 };
 
 module.exports.getAll = (req, res) => {

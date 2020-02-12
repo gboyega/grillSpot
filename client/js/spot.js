@@ -57,7 +57,7 @@ reviewForm.addEventListener("submit", event => {
       "Please fill all appropriate fields"
     );
   }
-  console.log(selectedSpot);
+  console.log(selectedSpot)
   event.preventDefault();
 });
 

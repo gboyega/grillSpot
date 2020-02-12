@@ -22,7 +22,6 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-success" id="nav"></nav>
 
-
     <div class="jumbotron jumbotron-fluid mast">
         <div class="container">
             <div class='sep'></div>
@@ -30,7 +29,7 @@
             <p class="lead text-center text-success font-weight-bold m-3">Satisfy your cravings with the best grilled
                 food from the best rated places in Lagos</p>
 
-            <form>
+            <form id="selectForm">
                 <div class="form-row">
 
                     <div class="col">
@@ -126,7 +125,40 @@
 
     <div class="modal fade" id="signUp" tabindex="-1" role="dialog" aria-labelledby="signUp" aria-hidden="true"></div>
 
-    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true"></div>
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="loginTitle">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="Email">Email address</label>
+                            <input type="email" class="form-control" id="loginEmail" aria-describedby="email"
+                                placeholder="Enter your email address" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Password">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" name="password" required>
+                        </div>
+
+                        <input type="submit" class="form-control btn btn-success text-dark align-center"
+                            data-dismiss="modal" value="login">
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <p class="text-center">Don't have an account? <a class="text-success" data-toggle="modal"
+                            data-target="#signUp" data-dismiss="modal">Sign-Up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="addSpot" tabindex="-1" role="dialog" aria-labelledby="addSpot" aria-hidden="true"></div>
 

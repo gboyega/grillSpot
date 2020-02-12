@@ -3,7 +3,7 @@ var grub;
 var howTo = document.getElementById("findGrubs");
 var title = document.getElementById("searchTitle");
 var spotCard = document.getElementById("spotCards");
-const form = document.querySelector("form");
+const form = document.getElementById("selectForm");
 var id;
 //
 
@@ -38,20 +38,20 @@ form.addEventListener("submit", event => {
   event.preventDefault();
 });
 
-function reply_click() {
-  id = event.target.id;
+const reply_click = (passedId) => {
+  var id = event.target.id || passedId ;
   var w = window.open("./html/spot.html");
   w.id = id;
-}
+};
 
 const loadPage = () => {
+  loadNav();
   getSpots();
   var sortedSpot = spots
     .sort(() => {
       return Math.random() - Math.random();
     })
     .slice(0, 3);
-  loadNav();
   sortedSpot.map(spot => displaySearchResults(spot));
 };
 
@@ -80,6 +80,7 @@ const sort = (loc, grub) => {
 };
 
 const displaySearchResults = spot => {
+  var details = JSON.stringify(spot);
   card = ` <div class ="col-sm-4 mb-5" >
             <div class="card h-100" >
                     <img src="${spot.image}"

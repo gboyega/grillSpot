@@ -24,77 +24,148 @@ const loadNav = () => {
 };
 
 const getFormData = formId => {
-  var kvpairs = [];
+  var formValues = [];
   var form = document.getElementById(formId);
   for (var i = 0; i < form.elements.length; i++) {
     var e = form.elements[i];
-    kvpairs.push(encodeURIComponent(e.value));
+    formValues.push(
+      encodeURIComponent(e.value)
+        .replace("%20", " ")
+        .replace("%40", "@")
+    );
   }
-  return kvpairs;
+
+  return formValues;
 };
 
-document.addEventListener("click", e => {
-  if (e.target && e.target.id == "signUpButton") {
-    try {
-      var [name, email, password] = getFormData("signUpForm");
-      name = name.replace("%20", " ");
-      email = email.replace("%40", "@");
-      fetch("/api/users/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password })
-      })
-        .then(response => {
-          if (response.status == 201) {
-            return response.json();
-          } else {
-            alert(
-              "An account already exists with this email address. Log in to continue"
-            );
-            $("#logIn").modal("show");
-          }
-        })
-        .then(data => {
-          console.log(data);
-          alert("signup Successful, login to continue ");
-          $("#logIn").modal("show");
-        });
-    } catch (error) {
-      alert("Signup failed. Please try again");
-      console.log(error);
-    }
-  }
-  e.preventDefault();
-});
+const signUp = () => {
+  try {
+    var [name, email, password] = getFormData("signUpForm");
 
-document.addEventListener("click", e => {
-  if (e.target && e.target.id == "loginButton") {
-    try {
-      var [email, password] = getFormData("loginForm");
-      email = email.replace("%40", "@");
-      fetch("/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
+    fetch("/api/users/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password })
+    })
+      .then(response => {
+        if (response.status == 201) {
+          return response.json();
+        } else {
+          alert(
+            "An account already exists with this email address. Log in to continue"
+          );
+          $("#logIn").modal("show");
+        }
       })
-        .then(response => {
-          if (response.status == 200) {
-            return response.json();
-          } else {
-            alert("incorrect email or password, please check and try again");
-          }
-        })
-        .then(data => {
-          sessionStorage.setItem("user", JSON.stringify(data.body));
-          loadNav();
-        });
-    } catch (error) {
-      alert("Error! please try again");
-      console.log(error);
-    }
+      .then(data => {
+        console.log(data);
+        alert("signup Successful, login to continue ");
+        $("#logIn").modal("show");
+      });
+  } catch (error) {
+    alert("Signup failed. Please try again");
+    console.log(error);
   }
-  event.preventDefault();
-});
+};
+
+const login = () => {
+  try {
+    var [email, password] = getFormData("loginForm");
+    fetch("/api/users/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    })
+      .then(response => {
+        if (response.status == 200) {
+          return response.json();
+        } else {
+          alert("incorrect email or password, please check and try again");
+        }
+      })
+      .then(data => {
+        sessionStorage.setItem("user", JSON.stringify(data.body));
+        alert("login successful.");
+        loadNav();
+      });
+  } catch (error) {
+    alert("Error! please try again");
+    console.log(error);
+  }
+};
+
+const imageUpload = () => {
+  var image = document.getElementById("imageFile").files[0];
+  const formData = new FormData();
+  formData.append("file", image);
+  try {
+    fetch("/api/upload/", {
+      method: "POST",
+      //  headers: { "Content-Type": "multipart/form-data" },
+      body: formData
+    }).then(response => {
+      if (response.status != 200) {
+        console.log(response.json());
+      }
+    });
+  } catch (error) {
+    alert("Error! please try again");
+    console.log(error);
+  }
+};
+
+const addSpot = () => {
+  try {
+    var [
+      name,
+      location,
+      address,
+      phone,
+      mail,
+      website,
+      category
+    ] = getFormData("addSpotForm");
+    fetch("/api/spots/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        location,
+        owner: user.name,
+        address,
+        phone,
+        mail,
+        website,
+        category,
+        ownerId: user._id
+      })
+    })
+      .then(response => {
+        if (response.status == 201) {
+          return response.json();
+        } else {
+          console.log(response);
+          alert(
+            "Spot not added. Please try again"
+          );
+        }
+      })
+      .then(data => {
+        console.log(data);
+        spots.push(data);
+        alert("Spot created Successfully");
+        reply_click(data.body._id);
+      });
+  } catch (error) {
+    console.log(error);
+    alert("Spot could not be added. Please try again");
+  }
+};
+
+const logOut = () => {
+  sessionStorage.removeItem("user");
+  loadNav();
+};
 
 const attachModals = () => {
   attachAddSpotModal();
@@ -141,7 +212,7 @@ const displayNavbarLoggedIn = user => {
             <li><h5 class="mr-sm-3 mt-sm-2">${user.name}</h5></li>
             <li><button class="btn btn-outline-dark my-2 my-sm-0 mr-sm-2" data-toggle="modal" data-target="#addSpot">Add
                     Spot</button></li>
-            <li><button class="btn btn-outline-dark my-2 my-sm-0" id="logOut">Log Out</button></li>
+            <li><button class="btn btn-outline-dark my-2 my-sm-0" onclick="logOut()">Log Out</button></li>
             </ul>
         </div>`;
   navbar.innerHTML = " ";
@@ -188,9 +259,8 @@ const attachSignUpModal = () => {
                 </div>
                 <div class="modal-footer">
                     <p class="text-center">Already have an acount? <a class="text-success" data-toggle="modal"
-                            data-target="#login" data-dismiss="modal">Log in</a></p> <button type="submit"
+                            data-target="#login" data-dismiss="modal">Log in</a></p> <button onclick="signUp()"
                         class="btn btn-success text-dark" id="signUpButton" data-dismiss="modal">Sign Up</button>
-
                 </div>
             </div>
         </div>`;
@@ -209,26 +279,25 @@ const attachLoginModal = () => {
                 </div>
                 <div class="modal-body">
                     <form id="loginForm">
-
                         <div class="form-group">
                             <label for="Email">Email address</label>
                             <input type="email" class="form-control" id="loginEmail" aria-describedby="email"
-                                placeholder="Enter your email address" name="email">
+                                placeholder="Enter your email address" name="email" required>
                         </div>
 
                         <div class="form-group">
                             <label for="Password">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" name="password">
+                            <input type="password" class="form-control" id="loginPassword" name="password" required>
                         </div>
 
-
+                       
                     </form>
                 </div>
+
                 <div class="modal-footer">
                     <p class="text-center">Don't have an account? <a class="text-success" data-toggle="modal"
-                            data-target="#signUp" data-dismiss="modal">Sign-Up</a></p><button type="submit"
-                        class="btn btn-success text-dark align-center" id="loginButton" data-dismiss="modal">login</button>
-
+                            data-target="#signUp" data-dismiss="modal">Sign-Up</a></p>
+                             <button class="btn btn-success text-dark align-center" data-dismiss="modal" onclick="login()">login</button>
                 </div>
             </div>
         </div>`;
@@ -246,14 +315,14 @@ const attachAddSpotModal = () => {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="imageForm">
+                    <form>
                         <div class="form-group">
                             <label for="imageFile">Spot Image</label>
-                            <input type="file" class="form-control-file" id="imageFile" name="image">
+                            <input type="file" class="form-control-file" id="imageFile" name="image" onchange="imageUpload()" accept="image/x-png, image/x-jpg">
                         </div>
-                    </form>
-
-                    <form id="addSpotForm">
+                        </form>
+                        
+                        <form id="addSpotForm">
                         <div class="form-group">
                             <label for="Name">Name</label>
                             <input type="text" class="form-control" id="spotName" aria-describedby="name"
@@ -268,12 +337,6 @@ const attachAddSpotModal = () => {
                         </div>
 
                         <div class="form-group">
-                            <label for="operator">Owner/Operator</label>
-                            <input type="text" class="form-control" id="operator" aria-describedby="operator"
-                                placeholder="Spot operator" required name="operator">
-                        </div>
-
-                        <div class="form-group">
                             <label for="address">Address</label>
                             <input type="text" class="form-control" id="address" aria-describedby="address"
                                 placeholder="Spot address" required name="address">
@@ -281,7 +344,7 @@ const attachAddSpotModal = () => {
 
                         <div class="form-group">
                             <label for="phone">Phone No.</label>
-                            <input type="text" class="form-control" id="phone" aria-describedby="phone"
+                            <input type="tel" class="form-control" id="phone" aria-describedby="phone"
                                 placeholder="Spot contact phone" required name="phone">
                         </div>
 
@@ -293,39 +356,33 @@ const attachAddSpotModal = () => {
 
                         <div class="form-group">
                             <label for="website">Web address</label>
-                            <input type="text" class="form-control" id="website" aria-describedby="website"
+                            <input type="url" class="form-control" id="website" aria-describedby="website"
                                 placeholder="Enter spot website address or NA" name="website">
                         </div>
 
                         <div class="form-group">
                             <label for="category">Known for</label>
-                            <select class="form-control" id="category" name="category">
+                            <select class="form-control" id="category" name="category" required>
                                 <option>Asun</option>
                                 <option>Suya</option>
                             </select>
                         </div>
 
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="spotT&cCheck" required>
-                            <label class="form-check-label" for="t&cCheck">I agree to all Terms and
-                                privacy
-                                policy</label>
+                        <div class="form-group">
+                          <div class="form-check">
+                              <input type="checkbox" class="form-check-input" id="spotT&cCheck" required>
+                              <label class="form-check-label" for="t&cCheck">I agree to all Terms and
+                                  privacy
+                                  policy</label>
+                          </div>
                         </div>
-
-                        <button type="submit" class="btn btn-success text-dark" data-dismiss="modal"
-                            id="addSpotButton" data-dismiss="modal">Add</button>
                     </form>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-success text-dark" data-dismiss="modal" id="addSpotButton" onclick="addSpot()" data-dismiss="modal">Add</button>
                 </div>
             </div>
         </div>`;
   document.getElementById("addSpot").innerHTML = " ";
   document.getElementById("addSpot").insertAdjacentHTML("beforeend", card);
 };
-
-document.addEventListener("click", e => {
-  if (e.target && e.target.id == "logOut") {
-    sessionStorage.removeItem("user");
-    loadNav();
-    e.preventDefault();
-  }
-});
