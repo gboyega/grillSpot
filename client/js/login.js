@@ -28,11 +28,7 @@ const getFormData = formId => {
   var form = document.getElementById(formId);
   for (var i = 0; i < form.elements.length; i++) {
     var e = form.elements[i];
-    formValues.push(
-      encodeURIComponent(e.value)
-        .replace("%20", " ")
-        .replace("%40", "@")
-    );
+    formValues.push(e.value);
   }
 
   return formValues;
@@ -116,45 +112,38 @@ const imageUpload = () => {
 
 const addSpot = () => {
   try {
-    var [
-      name,
-      location,
-      address,
-      phone,
-      mail,
-      website,
-      category
-    ] = getFormData("addSpotForm");
+    var [name, location, address, phone, mail, website, category] = getFormData(
+      "addSpotForm"
+    );
     fetch("/api/spots/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name,
         location,
-        owner: user.name,
         address,
         phone,
         mail,
         website,
         category,
-        ownerId: user._id
+        owner: user.name,
+        ownerId: user._id || user.id
       })
     })
       .then(response => {
         if (response.status == 201) {
+          alert("Spot created Successfully");
           return response.json();
         } else {
           console.log(response);
-          alert(
-            "Spot not added. Please try again"
-          );
+          alert("Spot not added. Please try again");
         }
       })
       .then(data => {
         console.log(data);
-        spots.push(data);
-        alert("Spot created Successfully");
-        reply_click(data.body._id);
+        spots.push(data.body);
+        console.log(spots);
+        reply_click(data.body);
       });
   } catch (error) {
     console.log(error);

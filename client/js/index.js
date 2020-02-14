@@ -5,7 +5,7 @@ var title = document.getElementById("searchTitle");
 var spotCard = document.getElementById("spotCards");
 const form = document.getElementById("selectForm");
 var id;
-//
+var data;
 
 window.onload = () => {
   loadPage();
@@ -38,10 +38,16 @@ form.addEventListener("submit", event => {
   event.preventDefault();
 });
 
-const reply_click = (passedId) => {
-  var id = event.target.id || passedId ;
-  var w = window.open("./html/spot.html");
-  w.id = id;
+const reply_click = spotInfo => {
+  if (event) {
+    id = event.target.id;
+    var w = window.open("./html/spot.html");
+    w.id = id;
+  } else {
+    data = spotInfo;
+    var w = window.open("./html/spot.html");
+    w.data = spotInfo;
+  }
 };
 
 const loadPage = () => {

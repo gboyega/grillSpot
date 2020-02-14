@@ -15,11 +15,6 @@ const spotSchema = new Schema({
     required:true
   },
 
-  operator: {
-    type: String,
-    trim: true
-  },
-
   address: {
     type: String,
     trim: true,
@@ -52,6 +47,12 @@ const spotSchema = new Schema({
     type: String,
     trim: true,
     required:true
+  },
+
+  owner: {
+    type: String,
+    trim: true,
+    required: true
   },
 
   ownerId: {

@@ -1,15 +1,15 @@
 var id = window.opener.id;
+var data = window.opener.data;
 var reviewForm = document.querySelector("form");
 var selectedSpot;
-var reviewSlot = document.getElementById("reviewCards")
-
+var reviewSlot = document.getElementById("reviewCards");
 
 window.onload = () => {
   loadNav();
   attachModals();
   getSpots();
-  console.log(id,spots);
-  selectedSpot = sift(id);
+  id ? selectedSpot = sift(id) : selectedSpot = data;
+  console.log({selectedSpot});
   profileDisplay(selectedSpot);
   for (o = 0; o < selectedSpot.menu.length; o++) {
     MenuItemsDisplay(selectedSpot, o);
@@ -18,7 +18,6 @@ window.onload = () => {
     reviewsDisplay(selectedSpot, u);
   }
 };
-
 
 const sift = id => {
   let spot = [];
@@ -30,13 +29,15 @@ const sift = id => {
   return spot[0];
 };
 
-
-
 reviewForm.addEventListener("submit", event => {
   newName = document.getElementById("name").value;
   newTitle = document.getElementById("reviewTitle").value;
   newReview = document.getElementById("extendedReview").value;
-  if (newName.trim(" ").length != 0 && newTitle.trim(" ").length != 0 && newReview.trim(" ").length != 0 ) {
+  if (
+    newName.trim(" ").length != 0 &&
+    newTitle.trim(" ").length != 0 &&
+    newReview.trim(" ").length != 0
+  ) {
     var newReview = {
       name: newName,
       Title: newTitle,
@@ -51,17 +52,12 @@ reviewForm.addEventListener("submit", event => {
     // newName = "";
     // newTitle = "";
     // newReview = "";
-
   } else {
-    alert(
-      "Please fill all appropriate fields"
-    );
+    alert("Please fill all appropriate fields");
   }
-  console.log(selectedSpot)
+  console.log(selectedSpot);
   event.preventDefault();
 });
-
-
 
 var profileDisplay = selectedSpot => {
   profile = ` <p><img src="${selectedSpot.image}"
@@ -122,6 +118,6 @@ var reviewsDisplay = (selectedSpot, i) => {
                                         </div>
                                     </div>
                                 </div>`;
-  
-    reviewSlot.insertAdjacentHTML("beforeend", review);
+
+  reviewSlot.insertAdjacentHTML("beforeend", review);
 };

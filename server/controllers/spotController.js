@@ -38,7 +38,7 @@ module.exports.create = ( req, res ) => {
     const spot = {
         name: req.body.name,
         location: req.body.location,
-        operator: req.body.operator,
+        owner: req.body.owner,
         address: req.body.address,
         phone: req.body.phone,
         mail: req.body.mail,
@@ -51,7 +51,7 @@ module.exports.create = ( req, res ) => {
    const newSpot = new Spot(spot);
 
     newSpot.save()
-    .then(() => res.status(201).json({message: 'Spot created successfully!', body: spot }))
+    .then(() => res.status(201).json({message: 'Spot created successfully!', body: newSpot }))
     .catch(err => {
       res.status(400).json({error: err, message: 'Spot Not created'});
       console.log(err);
@@ -77,9 +77,9 @@ module.exports.getOne = (req, res) => {
 module.exports.update = (req, res) => {
   const spot = req.body;
 
-  Todo.findByIdAndUpdate({ _id: req.params.spotId }, spot, { new: true })
+  Spot.findByIdAndUpdate({ _id: req.params.spotId }, spot, { new: true })
     .then(spot =>
-      res.json({ body: spot, message: "Todo updated successfully" })
+      res.json({ body: spot, message: "Spot updated successfully" })
     )
     .catch(err =>
       res.status(400).json({ error: err, message: "cannot update Spot" })
@@ -87,8 +87,8 @@ module.exports.update = (req, res) => {
 };
 
 module.exports.delete = (req, res) => {
-  Todo.findOneAndDelete({ _id: req.params.todoId })
-    .then(todos => res.json({ body: spot, message: "todo has been deleted" }))
+  Spot.findOneAndDelete({ _id: req.params.spotId })
+    .then(() => res.json({message: "spot has been deleted" }))
     .catch(err =>
       res.status(400).json({ error: err, message: "cannot delete spot" })
     );
