@@ -8,15 +8,12 @@ window.onload = () => {
   loadNav();
   attachModals();
   getSpots();
-  id ? selectedSpot = sift(id) : selectedSpot = data;
-  console.log({selectedSpot});
+  id ? (selectedSpot = sift(id)) : (selectedSpot = data);
   profileDisplay(selectedSpot);
-  for (o = 0; o < selectedSpot.menu.length; o++) {
-    MenuItemsDisplay(selectedSpot, o);
-  }
-  for (u = 0; u < selectedSpot.review.length; u++) {
-    reviewsDisplay(selectedSpot, u);
-  }
+  getReview(selectedSpot._id);
+  // for (o = 0; o < selectedSpot.menu.length; o++) {
+  //   MenuItemsDisplay(selectedSpot, o);
+  // }
 };
 
 const sift = id => {
@@ -29,34 +26,56 @@ const sift = id => {
   return spot[0];
 };
 
+const getReview = spotId => {
+  try {
+    fetch(`/api/reviews/${spotId}`)
+      .then(response => response.json())
+      .then(data => {
+        reviewSlot.innerHTML = "";
+        data.body.map(review => reviewsDisplay(review));
+      });
+  } catch (error) {
+    noReviewsDisplay();
+    console.log(error);
+  }
+};
+
 reviewForm.addEventListener("submit", event => {
-  newName = document.getElementById("name").value;
+  event.preventDefault();
   newTitle = document.getElementById("reviewTitle").value;
   newReview = document.getElementById("extendedReview").value;
-  if (
-    newName.trim(" ").length != 0 &&
-    newTitle.trim(" ").length != 0 &&
-    newReview.trim(" ").length != 0
-  ) {
-    var newReview = {
-      name: newName,
-      Title: newTitle,
-      review: newReview
-    };
-    selectedSpot.review.push(newReview);
-    reviewSlot.innerHTML = "";
-    for (u = 0; u < selectedSpot.review.length; u++) {
-      reviewsDisplay(selectedSpot, u);
+  if (newTitle.trim(" ").length != 0 && newReview.trim(" ").length != 0) {
+    try {
+      var date = new Date();
+      fetch("/api/reviews/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          spotId: selectedSpot._id,
+          name: user.name,
+          title: newTitle,
+          review: newReview,
+          date: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+        })
+      }).then(response => {
+        if (response.status == 200) {
+          reviewSlot.innerHTML = "";
+          getReview(selectedSpot._id);
+          newName = "";
+          newTitle = "";
+          newReview = "";
+        } else {
+          console.log(response);
+          alert("error adding review, Please try again");
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      alert("server error, Please try again");
     }
-
-    // newName = "";
-    // newTitle = "";
-    // newReview = "";
   } else {
     alert("Please fill all appropriate fields");
   }
-  console.log(selectedSpot);
-  event.preventDefault();
 });
 
 var profileDisplay = selectedSpot => {
@@ -105,19 +124,28 @@ var MenuItemsDisplay = (selectedSpot, i) => {
     .getElementById("menuItems")
     .insertAdjacentHTML("beforeend", menuItem);
 };
-var reviewsDisplay = (selectedSpot, i) => {
+var reviewsDisplay = review => {
   review = ` <div class="sep"></div>
                                 <div class="card mb-3" style="max-width: 90%;">
                                     <div class="row no-gutters">
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title">${selectedSpot.review[i].Title}</h5>
-                                                <p class="card-text">${selectedSpot.review[i].review}</p>
-                                                <p class="card-text"><small class="text-muted">${selectedSpot.review[i].name}</small></p>
-                                            </div>
+                                                <h5 class="card-title">${review.title}</h5>
+                                                <p class="card-text">${review.review}</p>
+                                                <p class="card-text"><small class="text-muted">${review.name}</small><br><small class="text-muted">${review.date}</small></p>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </div>`;
 
   reviewSlot.insertAdjacentHTML("beforeend", review);
+};
+
+var noReviewsDisplay = () => {
+  card = `<div class="sep"></div>
+          <div>
+            <h5 class="card-title">There are currently no reviews for this spot</h5>
+          </div>`;
+
+  reviewSlot.insertAdjacentHTML("beforeend", card);
 };
