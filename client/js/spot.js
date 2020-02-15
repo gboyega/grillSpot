@@ -10,7 +10,7 @@ window.onload = () => {
   getSpots();
   id ? (selectedSpot = sift(id)) : (selectedSpot = data);
   profileDisplay(selectedSpot);
-  getReview(selectedSpot._id);
+  user ? getReview(selectedSpot._id) : reviewNotLoggedIn();
   // for (o = 0; o < selectedSpot.menu.length; o++) {
   //   MenuItemsDisplay(selectedSpot, o);
   // }
@@ -143,9 +143,26 @@ var reviewsDisplay = review => {
 
 var noReviewsDisplay = () => {
   card = `<div class="sep"></div>
-          <div>
-            <h5 class="card-title">There are currently no reviews for this spot</h5>
-          </div>`;
+                                <div class="card mb-3" style="max-width: 90%;">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">No reviews available for this spot!</h5>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>`;
 
   reviewSlot.insertAdjacentHTML("beforeend", card);
+};
+
+var reviewNotLoggedIn = () => {
+  text = `<div>
+                                <h4 class="text-center"><a href="#"class="text-success" data-toggle="modal" data-target="#login">Login</a></h4>
+                                <p class="text-center">or</p>
+                                <h4 class="text-center"><a href="#" class="text-success" data-toggle="modal" data-target="#signUp">sign Up</a></h4>
+                                <p class="text-center">to view reviews</p>
+                            </div>`;
+  document.getElementById("review").innerHTML = "";
+  document.getElementById("review").insertAdjacentHTML("beforeend", text);
 };

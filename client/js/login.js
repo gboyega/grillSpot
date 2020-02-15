@@ -82,7 +82,7 @@ const login = () => {
       .then(data => {
         sessionStorage.setItem("user", JSON.stringify(data.body));
         alert("login successful.");
-        loadNav();
+        location.reload();
       });
   } catch (error) {
     alert("Error! please try again");
@@ -153,7 +153,8 @@ const addSpot = () => {
 
 const logOut = () => {
   sessionStorage.removeItem("user");
-  loadNav();
+  location.reload();
+  // loadNav();
 };
 
 const attachModals = () => {
