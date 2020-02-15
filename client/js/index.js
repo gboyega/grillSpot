@@ -37,16 +37,27 @@ form.addEventListener("submit", event => {
   }
   event.preventDefault();
 });
+const sift = id => {
+  let spot = [];
+  for (x = 0; x < spots.length; x++) {
+    if (id == spots[x]._id) {
+      spot.push(spots[x]);
+    }
+  }
+  return spot[0];
+};
 
 const reply_click = spotInfo => {
   if (event) {
-    id = event.target.id;
-    var w = window.open("./html/spot.html");
-    w.id = id;
+    getSpots();
+    sessionStorage.setItem(
+      "selectedSpot",
+      JSON.stringify(sift(event.target.id))
+    );
+    window.open("./html/spot.html", "_self");
   } else {
-    data = spotInfo;
-    var w = window.open("./html/spot.html");
-    w.data = spotInfo;
+    sessionStorage.setItem("selectedSpot", JSON.stringify(spotInfo));
+    window.open("./html/spot.html", "_self");
   }
 };
 

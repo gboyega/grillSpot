@@ -1,14 +1,10 @@
-var id = window.opener.id;
-var data = window.opener.data;
 var reviewForm = document.querySelector("form");
-var selectedSpot;
 var reviewSlot = document.getElementById("reviewCards");
 
 window.onload = () => {
   loadNav();
   attachModals();
-  getSpots();
-  id ? (selectedSpot = sift(id)) : (selectedSpot = data);
+  var selectedSpot = JSON.parse(sessionStorage.getItem("selectedSpot"));
   profileDisplay(selectedSpot);
   user ? getReview(selectedSpot._id) : reviewNotLoggedIn();
   // for (o = 0; o < selectedSpot.menu.length; o++) {
@@ -16,15 +12,6 @@ window.onload = () => {
   // }
 };
 
-const sift = id => {
-  let spot = [];
-  for (x = 0; x < spots.length; x++) {
-    if (id == spots[x]._id) {
-      spot.push(spots[x]);
-    }
-  }
-  return spot[0];
-};
 
 const getReview = spotId => {
   try {
