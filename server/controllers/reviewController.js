@@ -2,7 +2,7 @@ let Review = require("../models/review.model");
 
 module.exports.create = (req, res) => {
   const review = req.body;
-  console.log({review});
+  console.log({ review });
   newReview = new Review(review);
 
   newReview
@@ -10,7 +10,7 @@ module.exports.create = (req, res) => {
     .then(() =>
       res.status(200).send({ message: "Thank you for leaving a review" })
     )
-    .catch(err =>{
+    .catch(err => {
       console.log(err);
       res.status(400).send({ error: err, message: "Failed, please try again" });
     });
@@ -18,7 +18,13 @@ module.exports.create = (req, res) => {
 
 module.exports.getMany = (req, res) => {
   Review.find({ spotId: req.params.spotId })
-    .then(reviews => res.status(200).json({ body: reviews }))
+    .then(reviews => {
+      if (reviews.length < 1) {
+        res.status(204).json({ message: "no reviews for this spot" });
+      } else {
+        res.status(200).json({ body: reviews });
+      }
+    })
     .catch(err =>
       res
         .status(500)

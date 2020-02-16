@@ -1,30 +1,58 @@
 var reviewForm = document.querySelector("form");
 var reviewSlot = document.getElementById("reviewCards");
+var menuSlot = document.getElementById("menuItems");
+var selectedSpot = JSON.parse(sessionStorage.getItem("selectedSpot"));
 
 window.onload = () => {
   loadNav();
   attachModals();
-  var selectedSpot = JSON.parse(sessionStorage.getItem("selectedSpot"));
   profileDisplay(selectedSpot);
-  user ? getReview(selectedSpot._id) : reviewNotLoggedIn();
-  // for (o = 0; o < selectedSpot.menu.length; o++) {
-  //   MenuItemsDisplay(selectedSpot, o);
-  // }
+  if (user) {
+    getMenu(selectedSpot._id);
+    getReview(selectedSpot._id);
+  } else {
+    NotLoggedIn("menu", "to view menu");
+    NotLoggedIn("review", "to view or write review");
+  }
+  if (user._id || user.id == selectedSpot.ownerId) {
+    menuForm();
+  }
 };
 
-
 const getReview = spotId => {
-  try {
-    fetch(`/api/reviews/${spotId}`)
-      .then(response => response.json())
-      .then(data => {
+  fetch(`/api/reviews/${spotId}`)
+    .then(response => {
+      if (response.status == 200) {
+        return response.json();
+      }
+    })
+    .then(data => {
+      if (data) {
         reviewSlot.innerHTML = "";
         data.body.map(review => reviewsDisplay(review));
-      });
-  } catch (error) {
-    noReviewsDisplay();
-    console.log(error);
-  }
+      } else {
+        noReviewsDisplay();
+      }
+    })
+    .catch(error => console.log(error));
+};
+
+const getMenu = spotId => {
+  fetch(`/api/menu/${spotId}`)
+    .then(response => {
+      if (response.status == 200) {
+        return response.json();
+      }
+    })
+    .then(data => {
+      if (data) {
+        menuSlot.innerHTML = "";
+        data.body.map(menu => MenuItemsDisplay(menu));
+      } else {
+        noMenuDisplay();
+      }
+    })
+    .catch(error => console.log(error));
 };
 
 reviewForm.addEventListener("submit", event => {
@@ -34,6 +62,10 @@ reviewForm.addEventListener("submit", event => {
   if (newTitle.trim(" ").length != 0 && newReview.trim(" ").length != 0) {
     try {
       var date = new Date();
+      var day = date.getDate();
+      if (day.length < 2) {
+        day = "0" + day;
+      }
       fetch("/api/reviews/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,7 +74,7 @@ reviewForm.addEventListener("submit", event => {
           name: user.name,
           title: newTitle,
           review: newReview,
-          date: `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`
+          date: `${day}-${date.getMonth() + 1}-${date.getFullYear()}`
         })
       }).then(response => {
         if (response.status == 200) {
@@ -96,20 +128,20 @@ var profileDisplay = selectedSpot => {
   document.getElementById("profile").insertAdjacentHTML("beforeend", profile);
 };
 
-var MenuItemsDisplay = (selectedSpot, i) => {
+var MenuItemsDisplay = menu => {
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "NGN",
+    minimumFractionDigits: 2
+  });
+  var price = formatter.format(Number(menu.price));
   menuItem = `<div class="sep"></div>
                                     <div class="col-sm-5 text-success">
-                                        <h4>${selectedSpot.menu[i].name}</h4>
+                                        <h4>${menu.name}</h4>
                                     </div>
-                                    <div class="col-sm-5">${selectedSpot.menu[
-                                      i
-                                    ].price.toLocaleString("en-US", {
-                                      style: "currency",
-                                      currency: "NGN"
-                                    })}</div>`;
-  document
-    .getElementById("menuItems")
-    .insertAdjacentHTML("beforeend", menuItem);
+                                    <div class="col-sm-5">${price}</div>`;
+
+  menuSlot.insertAdjacentHTML("beforeend", menuItem);
 };
 var reviewsDisplay = review => {
   review = ` <div class="sep"></div>
@@ -134,7 +166,7 @@ var noReviewsDisplay = () => {
                                     <div class="row no-gutters">
                                         <div class="col-md-8">
                                             <div class="card-body">
-                                                <h5 class="card-title">No reviews available for this spot!</h5>
+                                                <h5 class="card-title text-center">No reviews available for this spot!</h5>
                                             </div>                                            
                                         </div>
                                     </div>
@@ -143,13 +175,38 @@ var noReviewsDisplay = () => {
   reviewSlot.insertAdjacentHTML("beforeend", card);
 };
 
-var reviewNotLoggedIn = () => {
-  text = `<div>
+var NotLoggedIn = (slotId, text) => {
+  text = `<div class="align-middle">
                                 <h4 class="text-center"><a href="#"class="text-success" data-toggle="modal" data-target="#login">Login</a></h4>
-                                <p class="text-center">or</p>
-                                <h4 class="text-center"><a href="#" class="text-success" data-toggle="modal" data-target="#signUp">sign Up</a></h4>
-                                <p class="text-center">to view reviews</p>
+                                <p class="text-center">${text}</p>
                             </div>`;
-  document.getElementById("review").innerHTML = "";
-  document.getElementById("review").insertAdjacentHTML("beforeend", text);
+  document.getElementById(slotId).innerHTML = "";
+  document.getElementById(slotId).insertAdjacentHTML("beforeend", text);
+};
+
+var menuForm = () => {
+  form = `<form class='form-inline justify-content-center'>
+                                        <label class="sr-only" for="inlineFormInputName2">Name</label>
+                                        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2"
+                                            placeholder="Name">
+
+                                        <label class="sr-only" for="inlineFormInputGroupUsername2">Price</label>
+                                        <div class="input-group mb-2 mr-sm-2">
+                                            <input type="text" class="form-control" id="inlineFormInputGroupUsername2"
+                                                placeholder="price">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-success text-dark mb-2">Submit</button>
+                                </form>`;
+  document.getElementById("menuForm").innerHTML = "";
+  document.getElementById("menuForm").insertAdjacentHTML("beforeend", form);
+};
+
+var noMenuDisplay = () => {
+  card = `<div class="sep"></div>
+                                <div class=" col-12 align-center">
+                                  <h4>No menu available for this spot!</h5>
+                                </div>`;
+
+  menuSlot.insertAdjacentHTML("beforeend", card);
 };

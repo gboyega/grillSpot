@@ -22,7 +22,13 @@ module.exports.create = (req, res) => {
 
 module.exports.getMany = (req, res) => {
   Menu.find({ spotId: req.params.spotId })
-    .then(menu => res.status(200).json({ body: menu }))
+    .then(menu => {
+      if (menu.length < 1){
+        res.status(204).json({ message: "no menu for this spot" });
+      } else {
+        res.status(200).json({ body: menu });
+      }
+    })
     .catch(err => {
       console.log(err);
       res.status(500).json({ error: err, message: "server error" });
