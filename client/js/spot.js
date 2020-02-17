@@ -55,7 +55,7 @@ const getMenu = spotId => {
     .catch(error => console.log(error));
 };
 
-reviewForm.addEventListener("submit", event => {
+document.getElementById("reviewForm").addEventListener("submit", event => {
   event.preventDefault();
   newTitle = document.getElementById("reviewTitle").value;
   newReview = document.getElementById("extendedReview").value;
@@ -64,7 +64,7 @@ reviewForm.addEventListener("submit", event => {
       var date = new Date();
       var day = date.getDate();
       if (day.length < 2) {
-        day = "0" + day;
+        day = "0" + day.toString();
       }
       fetch("/api/reviews/", {
         method: "POST",
@@ -78,11 +78,7 @@ reviewForm.addEventListener("submit", event => {
         })
       }).then(response => {
         if (response.status == 200) {
-          reviewSlot.innerHTML = "";
           getReview(selectedSpot._id);
-          newName = "";
-          newTitle = "";
-          newReview = "";
         } else {
           console.log(response);
           alert("error adding review, Please try again");
@@ -96,6 +92,32 @@ reviewForm.addEventListener("submit", event => {
     alert("Please fill all appropriate fields");
   }
 });
+
+var createMenu = () => {
+  event.preventDefault();
+  var [name, price] = getFormData("addMenu");
+  try {
+    fetch("/api/menu/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        spotId: selectedSpot._id,
+        name,
+        price
+      })
+    }).then(response => {
+      if (response.status == 200) {
+        getMenu(selectedSpot._id);
+      } else {
+        console.log(response);
+        alert("error adding review, Please try again");
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    alert("server error, Please try again");
+  }
+};
 
 var profileDisplay = selectedSpot => {
   profile = ` <p><img src="${selectedSpot.image}"
@@ -129,17 +151,17 @@ var profileDisplay = selectedSpot => {
 };
 
 var MenuItemsDisplay = menu => {
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 2
-  });
+  // const formatter = new Intl.NumberFormat("en-US", {
+  //   style: "currency",
+  //   currency: "NGN",
+  //   minimumFractionDigits: 2
+  // });
   var price = formatter.format(Number(menu.price));
   menuItem = `<div class="sep"></div>
                                     <div class="col-sm-5 text-success">
                                         <h4>${menu.name}</h4>
                                     </div>
-                                    <div class="col-sm-5">${price}</div>`;
+                                    <div class="col-sm-5"><span>&#8358;</span> ${menu.price}</div>`;
 
   menuSlot.insertAdjacentHTML("beforeend", menuItem);
 };
@@ -185,14 +207,14 @@ var NotLoggedIn = (slotId, text) => {
 };
 
 var menuForm = () => {
-  form = `<form class='form-inline justify-content-center'>
-                                        <label class="sr-only" for="inlineFormInputName2">Name</label>
-                                        <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2"
+  form = `<form class='form-inline justify-content-center' id="addMenu" onsubmit="createMenu()">
+                                        <label class="sr-only" for="foodName">Name</label>
+                                        <input type="text" class="form-control mb-2 mr-sm-2" id="foodName"
                                             placeholder="Name">
 
-                                        <label class="sr-only" for="inlineFormInputGroupUsername2">Price</label>
+                                        <label class="sr-only" for="foodPrice">Price</label>
                                         <div class="input-group mb-2 mr-sm-2">
-                                            <input type="text" class="form-control" id="inlineFormInputGroupUsername2"
+                                            <input type="number" class="form-control" id="foodPrice"
                                                 placeholder="price">
                                         </div>
 
