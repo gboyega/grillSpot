@@ -166,7 +166,7 @@ const attachModals = () => {
 const getUser = () => JSON.parse(sessionStorage.getItem("user"));
 
 const displayNavbarLogIn = () => {
-  card = ` <a class="navbar-brand" href="../client/index.html"><img
+  card = ` <a class="navbar-brand" href="/index.html"><img
                 src="https://res.cloudinary.com/gboyega/image/upload/v1574848771/grillspot/LogoMakr_7e9Jxn_a6oa1d.png"
                 height="30" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
@@ -189,7 +189,7 @@ const displayNavbarLogIn = () => {
 };
 
 const displayNavbarLoggedIn = user => {
-  card = `  <a class="navbar-brand" href="../client/index.html"><img
+  card = `  <a class="navbar-brand" href="/index.html"><img
                 src="https://res.cloudinary.com/gboyega/image/upload/v1574848771/grillspot/LogoMakr_7e9Jxn_a6oa1d.png"
                 height="30" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler"

@@ -27,9 +27,13 @@ form.addEventListener("submit", event => {
     sortedSpot = sort(loc, grub);
     howTo.innerHTML = "";
     spotCard.innerHTML = "";
-    for (i = 0; i < sortedSpot.length; i++) {
-      displaySearchResults(sortedSpot, i);
+    if(sortedSpot.length < 1){
+      spotCard.innerHTML =
+        `<div class="justify-content-center"><h5>No result found for ${grub} in ${loc}</h5></div>`;
+    }else{
+      sortedSpot.map(spot => displaySearchResults(spot));
     }
+    
   } else {
     alert(
       "Please select a food to see all spots that serve that food, or select a location to see all spots in that location"
@@ -37,6 +41,8 @@ form.addEventListener("submit", event => {
   }
   event.preventDefault();
 });
+
+
 const sift = id => {
   let spot = [];
   for (x = 0; x < spots.length; x++) {
