@@ -116,6 +116,7 @@ const imageUpload = () => {
 
 const addSpot = () => {
   event.preventDefault();
+  user
   try {
     var [name, location, address, phone, mail, website, category] = getFormData(
       "addSpotForm"

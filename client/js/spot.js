@@ -132,8 +132,7 @@ var profileDisplay = selectedSpot => {
                                           "N/A"}</span> </p>
                                 <div class="sep"></div>
                                 <p class="card-text"><span class=" text-success text-start">Owner/Operator</span>: <span
-                                        class="text-end">${selectedSpot.operator ||
-                                          "N/A"}</span> </p>
+                                        class="text-end">${selectedSpot.owner || selectedSpot.operator}</span></p>
                                 <div class="sep"></div>
                                 <p class="card-text"><span class=" text-success text-start">Phone</span>: <span
                                         class="text-end">${selectedSpot.phone ||
