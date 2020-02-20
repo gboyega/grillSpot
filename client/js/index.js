@@ -15,10 +15,10 @@ window.onload = () => {
 form.addEventListener("submit", event => {
   loc = document.getElementById("locationSelect").value;
   grub = document.getElementById("grubSelect").value;
-  if (loc != "Location" || grub != "Looking for") {
-    if (loc != "Location" && grub === "Looking for") {
+  if (loc != "" || grub != "Looking for") {
+    if (loc != "" && grub === "Looking for") {
       title.innerHTML = `<h3 class="text-success text-center">${loc}</h3>`;
-    } else if (loc === "Location" && grub != "Looking for") {
+    } else if (loc === "" && grub != "Looking for") {
       title.innerHTML = `<h3 class="text-success text-center">${grub}</h3>`;
     } else {
       title.innerHTML = `<h3 class="text-success text-center">${grub} in ${loc}</h3>`;
