@@ -233,7 +233,7 @@ const attachSignUpModal = () => {
                         <div class="form-group">
                             <label for="Email">Email address</label>
                             <input type="email" class="form-control" id="userEmail" aria-describedby="email"
-                                placeholder="Enter your email address" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                                placeholder="Enter your email address" name="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" required>
                         </div>
 
                         <div class="form-group">
@@ -277,7 +277,7 @@ const attachLoginModal = () => {
                         <div class="form-group">
                             <label for="Email">Email address</label>
                             <input type="email" class="form-control" id="loginEmail" aria-describedby="email"
-                                placeholder="Enter your email address" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
+                                placeholder="Enter your email address" name="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" required>
                         </div>
 
                         <div class="form-group">
@@ -345,7 +345,7 @@ const attachAddSpotModal = () => {
                         <div class="form-group">
                             <label for="Email">Email address</label>
                             <input type="email" class="form-control" id="spotEmail" aria-describedby="email"
-                                placeholder="Enter spot email address" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+                                placeholder="Enter spot email address" name="email" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$">
                         </div>
 
                         <div class="form-group">
