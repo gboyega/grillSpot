@@ -27,7 +27,7 @@ module.exports.create = async (req, res) => {
         .then(() =>
           res.status(201).json({
             message: "User created.",
-            body: { name: user.name, id: user._id }
+            body: { name: newUser.name, id: newUser._id }
           })
         )
         .catch(err =>

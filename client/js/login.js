@@ -35,6 +35,7 @@ const getFormData = formId => {
 };
 
 const signUp = () => {
+  event.preventDefault();
   try {
     var [name, email, password] = getFormData("signUpForm");
 
@@ -55,8 +56,10 @@ const signUp = () => {
       })
       .then(data => {
         console.log(data);
-        alert("signup Successful, login to continue ");
-        $("#logIn").modal("show");
+        sessionStorage.setItem("user", JSON.stringify(data.body));
+        alert("signup Successful");
+        location.reload();
+        
       });
   } catch (error) {
     alert("Signup failed. Please try again");
@@ -65,6 +68,7 @@ const signUp = () => {
 };
 
 const login = () => {
+  event.preventDefault();
   try {
     var [email, password] = getFormData("loginForm");
     fetch("/api/users/login", {
@@ -111,6 +115,7 @@ const imageUpload = () => {
 };
 
 const addSpot = () => {
+  event.preventDefault();
   try {
     var [name, location, address, phone, mail, website, category] = getFormData(
       "addSpotForm"
@@ -142,7 +147,6 @@ const addSpot = () => {
       .then(data => {
         console.log(data);
         spots.push(data.body);
-        console.log(spots);
         reply_click(data.body);
       });
   } catch (error) {
@@ -219,23 +223,23 @@ const attachSignUpModal = () => {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="signUpForm">
+                    <form id="signUpForm" onsubmit="signUp()">
                         <div class="form-group">
                             <label for="Name">Name</label>
                             <input type="text" class="form-control" id="userName" aria-describedby="name"
-                                placeholder="Your First and Last name" required name="userName">
+                                placeholder="Your First and Last name" required name="name" pattern="[a-zA-Z ]*$">
                         </div>
 
                         <div class="form-group">
                             <label for="Email">Email address</label>
                             <input type="email" class="form-control" id="userEmail" aria-describedby="email"
-                                placeholder="Enter your email address" name="userEmail">
+                                placeholder="Enter your email address" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
                         </div>
 
                         <div class="form-group">
                             <label for="Password">Password</label>
                             <input type="password" placeholder="at least 8 characters" class="form-control"
-                                id="signUpPassword" name="signUpPassword">
+                                id="signUpPassword" name="signUpPassword" minlength="8" required>
                         </div>
 
                         <div class="form-group form-check">
@@ -245,12 +249,13 @@ const attachSignUpModal = () => {
                                 policy</label>
                         </div>
 
+                        <button type="submit" class="btn btn-success text-dark" id="signUpButton">Sign Up</button>
+
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <p class="text-center">Already have an acount? <a class="text-success" data-toggle="modal"
-                            data-target="#login" data-dismiss="modal">Log in</a></p> <button onclick="signUp()"
-                        class="btn btn-success text-dark" id="signUpButton" data-dismiss="modal">Sign Up</button>
+                    <p class="text-center">Already have an account? <a class="text-success" data-toggle="modal"
+                            data-target="#login" data-dismiss="modal">Log in</a></p>
                 </div>
             </div>
         </div>`;
@@ -268,26 +273,25 @@ const attachLoginModal = () => {
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="loginForm">
+                    <form id="loginForm" onsubmit="login()">
                         <div class="form-group">
                             <label for="Email">Email address</label>
                             <input type="email" class="form-control" id="loginEmail" aria-describedby="email"
-                                placeholder="Enter your email address" name="email" required>
+                                placeholder="Enter your email address" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required>
                         </div>
 
                         <div class="form-group">
                             <label for="Password">Password</label>
-                            <input type="password" class="form-control" id="loginPassword" name="password" required>
+                            <input type="password" class="form-control" id="loginPassword" name="password" minlength="8" required>
                         </div>
 
-                       
+                        <button class="btn btn-success text-dark align-center" type="submit">login</button>
                     </form>
                 </div>
 
                 <div class="modal-footer">
                     <p class="text-center">Don't have an account? <a class="text-success" data-toggle="modal"
                             data-target="#signUp" data-dismiss="modal">Sign-Up</a></p>
-                             <button class="btn btn-success text-dark align-center" data-dismiss="modal" onclick="login()">login</button>
                 </div>
             </div>
         </div>`;
@@ -312,11 +316,11 @@ const attachAddSpotModal = () => {
                         </div>
                         </form>
                         
-                        <form id="addSpotForm">
+                        <form id="addSpotForm" onsubmit="addSpot()">
                         <div class="form-group">
                             <label for="Name">Name</label>
                             <input type="text" class="form-control" id="spotName" aria-describedby="name"
-                                placeholder="Spot name" required name="name">
+                                placeholder="Spot name" required name="spotName">
                         </div>
 
                         <div class="form-group">
@@ -335,19 +339,19 @@ const attachAddSpotModal = () => {
                         <div class="form-group">
                             <label for="phone">Phone No.</label>
                             <input type="tel" class="form-control" id="phone" aria-describedby="phone"
-                                placeholder="Spot contact phone" required name="phone">
+                                placeholder="Spot contact phone" required name="phone" pattern="^0[7-9]0[0-9]+$" minlength="11" maxlength="11">
                         </div>
 
                         <div class="form-group">
                             <label for="Email">Email address</label>
                             <input type="email" class="form-control" id="spotEmail" aria-describedby="email"
-                                placeholder="Enter spot email address or NA" name="email" required>
+                                placeholder="Enter spot email address" name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
                         </div>
 
                         <div class="form-group">
                             <label for="website">Web address</label>
                             <input type="url" class="form-control" id="website" aria-describedby="website"
-                                placeholder="Enter spot website address or NA" name="website">
+                                placeholder="Enter spot website address" name="website">
                         </div>
 
                         <div class="form-group">
@@ -366,10 +370,12 @@ const attachAddSpotModal = () => {
                                   policy</label>
                           </div>
                         </div>
+
+                         <button class="btn btn-success text-dark" type="submit" id="addSpotButton">Add</button>
                     </form>
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-success text-dark" data-dismiss="modal" id="addSpotButton" onclick="addSpot()" data-dismiss="modal">Add</button>
+                 
                 </div>
             </div>
         </div>`;
