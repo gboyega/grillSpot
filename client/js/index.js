@@ -107,7 +107,7 @@ const displaySearchResults = spot => {
   card = ` <div class ="col-sm-4 mb-5" >
             <div class="card h-100" >
                     <img src="${spot.image}"
-                        class="card-img-top" alt="${spot.category}">
+                        class="card-img-top" alt="${spot.category}" style="max-height:200px;">
                     <div class="card-body">
                         <h5 class='text-center'><a class="card-title text-success" id="${spot._id}" onClick="reply_click()">${spot.name}</a></h5>
                         <p class="card-text text-muted">${spot.address}</p>

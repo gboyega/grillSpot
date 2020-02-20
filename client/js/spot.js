@@ -143,9 +143,10 @@ var profileDisplay = selectedSpot => {
                                         class="text-end">${selectedSpot.mail ||
                                           "N/A"}</span></p>
                                 <div class="sep"></div>
-                                <p class="card-text"><span class=" text-success text-start">Website</span>: <span
-                                        class="text-end">${selectedSpot.web ||
-                                          "N/A"}</span></p>
+                                <p class="card-text"><span class=" text-success text-start">Website</span>: <a
+                                        class="text-end text-muted" href="${selectedSpot.web ||
+                                          "#"}" >${selectedSpot.web ||
+    "N/A"}</a></p>
                                 <div class="sep"></div>`;
   document.getElementById("profile").insertAdjacentHTML("beforeend", profile);
 };
